@@ -10,6 +10,7 @@ class PairingHeap {
 private:
     Makeup* root = nullptr;
 public:
+    int size = 0;
     void Insert(Makeup* newMakeup);
     void Print();
     float GetMin();
@@ -17,13 +18,20 @@ public:
 
 //make the tree that has the larger root the leftmost subtree of the other tree.
 void PairingHeap::Insert(Makeup* newMakeup) {
+    size++;
+    //cout << newMakeup->price << endl;
     if (root == nullptr) {
         root = newMakeup;
-    } else if (root->price < newMakeup->price) { //if root's price is smaller than newMakeup's...
-        //make newMakeup a left child of the root node
+        //cout << "nullptr" << endl;
+    }
+
+    else if (root->price < newMakeup->price) { //if root's price is smaller than newMakeup's...
+     //make newMakeup a left child of the root node
+        //cout << "root: " << root->price << " newMakeup: " << newMakeup->price << endl;
         if (root->leftChild == nullptr) { //if a left child doesn't exist yet, make it the left child
             root->leftChild = newMakeup;
-        } else { //if a left child already exists...
+        }
+        else { //if a left child already exists...
             newMakeup->sibling = root->leftChild; //set newMakeup's sibling to be the root's current left child
             root->leftChild = newMakeup; //root's left child will now be newMakeup
 
@@ -33,16 +41,20 @@ void PairingHeap::Insert(Makeup* newMakeup) {
 //            }
 //            currMakeup->sibling = newMakeup;
         }
-    } else { //make it the new root, it has the lowest price so far
+    }
+    else { //make it the new root, it has the lowest price so far
         Makeup* oldRoot = root;
         root = newMakeup;
         root->leftChild = oldRoot;
     }
+
+    /*cout << root->brand << endl;
+    cout << root->price << endl;*/
 }
 
 void PairingHeap::Print() {
     Makeup* currProduct = root;
-    cout << root->price;
+    //cout << root->price;
     while (currProduct->leftChild != nullptr) {
         currProduct = currProduct->leftChild;
         cout << currProduct->price << endl;
@@ -54,8 +66,11 @@ void PairingHeap::Print() {
 }
 
 float PairingHeap::GetMin() {
-    cout << root->brand << endl;
-    cout << root->type << endl;
+    if (root == nullptr) {
+        cout << "ur dumb" << endl;
+    }
+    /*cout << root->id << endl;
+    cout << root->brand << endl;*/
+
     return root->price;
 }
-
