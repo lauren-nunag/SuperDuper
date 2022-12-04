@@ -845,7 +845,7 @@ public:
 	float rating = 0;
 	float price = 0;
 	string brand;
-	double id = 0;
+	int id = 0;
 };
 
 // A class for Min Heap
@@ -984,7 +984,7 @@ void read(MinHeap& h, string category) {
 			stringstream stream(line);
 			string temp;
 			//cout << line << endl;
-			double ID = 0;
+			int ID = 0;
 			string type = "";
 			float rating = 0.0;
 			float price = 0.0;
