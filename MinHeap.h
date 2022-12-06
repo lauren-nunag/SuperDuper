@@ -9,13 +9,12 @@ class MinHeap
 {
 // pointer to array of elements in heap
 public:
+    //makeup object
     MinMakeup* makeupPtr;
 
     int capacity; // maximum possible size of min heap
-
     int heap_size;
 
-    //public:
     // Constructor
     MinHeap(int capacity);
 
@@ -45,9 +44,9 @@ public:
 // Inserts a new makeup object
 void MinHeap::insertKey(MinMakeup k)
 {
-    if (heap_size == capacity)
-    {
-        cout << "\n Could not insertKey\n";
+
+    if (heap_size == capacity) {
+        cout << "does not work";
         return;
     }
 
@@ -57,11 +56,14 @@ void MinHeap::insertKey(MinMakeup k)
     makeupPtr[i] = k;
     while (i != 0 && makeupPtr[parent(i)].price > makeupPtr[i].price)
     {
+        //check for minimum price, repeat until min is found
 
+        //store as temp variable
         MinMakeup temp = (makeupPtr[i]);
         (makeupPtr[i]) = makeupPtr[parent(i)];
         makeupPtr[parent(i)] = temp;
         i = parent(i);
+        //as long as the parent value is greater than the child value, it will continue to swap
     }
 }
 
@@ -95,7 +97,6 @@ void MinHeap::MinHeapify(int i)
 
     if (minVal != i)
     {
-        //swap(&makeupPtr[i], &makeupPtr[minVal]);
         MinMakeup temp = (makeupPtr[i]);
 
         makeupPtr[i] = makeupPtr[minVal];

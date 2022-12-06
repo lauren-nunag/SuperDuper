@@ -3,9 +3,10 @@
 using namespace std;
 
 // each node should be a makeup object
-// this object should hold type, rating, price, and brand (id #?)
+// this object should hold type, rating, price, and brand
 // read each item from file and continually add to the heap
 // each node should be a different makeup object, organized by price
+
 class PairingHeap {
 private:
 public:
@@ -19,15 +20,14 @@ public:
 //make the tree that has the larger root the leftmost subtree of the other tree.
 void PairingHeap::Insert(Makeup* newMakeup) {
     size++;
-    //cout << newMakeup->price << endl;
+
+    //if no root exists yet, start the heap with this node
     if (root == nullptr) {
         root = newMakeup;
-        //cout << "nullptr" << endl;
     }
 
     else if (root->price < newMakeup->price) { //if root's price is smaller than newMakeup's...
         //make newMakeup a left child of the root node
-        //cout << "root: " << root->price << " newMakeup: " << newMakeup->price << endl;
         if (root->leftChild == nullptr) { //if a left child doesn't exist yet, make it the left child
             root->leftChild = newMakeup;
         }
@@ -37,15 +37,11 @@ void PairingHeap::Insert(Makeup* newMakeup) {
             Makeup* tempSibling = root->sibling;
             root->sibling = temp; //set newMakeup's sibling to be the root's current left child
 
+            //if it does not have a sibling, add it as a temp sibling
             if (root->sibling != nullptr) {
                 root->sibling->sibling = tempSibling;
             }
 
-//            Makeup* currMakeup = root->leftChild;
-//            while (currMakeup != nullptr) {
-//                currMakeup = currMakeup->sibling;
-//            }
-//            currMakeup->sibling = newMakeup;
         }
     }
     else { //make it the new root, it has the lowest price so far
@@ -56,9 +52,9 @@ void PairingHeap::Insert(Makeup* newMakeup) {
 
 }
 
+//prints out the pairing heap
 void PairingHeap::Print() {
     Makeup* currProduct = root;
-    //cout << root->price;
     while (currProduct->leftChild != nullptr) {
         currProduct = currProduct->leftChild;
         cout << currProduct->price << endl;
@@ -69,12 +65,11 @@ void PairingHeap::Print() {
     }
 }
 
+//returns minimum value currently in the heap
 Makeup* PairingHeap::GetMin() {
     if (root == nullptr) {
         cout << "ur dumb" << endl;
     }
-    /*cout << root->id << endl;
-    cout << root->brand << endl;*/
 
     return root;
 }
