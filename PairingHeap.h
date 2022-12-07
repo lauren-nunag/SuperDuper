@@ -1,3 +1,5 @@
+//written by Lauren and Brenda
+
 #pragma once
 #include "Makeup.h"
 using namespace std;
