@@ -1,75 +1,55 @@
 #pragma once
 #include "MinMakeup.h"
 
-class MinHeap
-{
+class MinHeap {
 // pointer to array of elements in heap
 public:
-    //makeup object
-    MinMakeup* makeupPtr;
+    MinMakeup* makeupPtr; //makeup object
+    int maxSize; // maximum possible size of min heap
+    int size;
 
-    int capacity; // maximum possible size of min heap
-    int heap_size;
-
-    // Constructor
-    MinHeap(int capacity);
-
-    // to heapify a subtree with the root at given index
+    //functions:
+    //creates minHeap
+    MinHeap(int maxSize);
+    //performs heapify at the root
+    MinMakeup getMin() { return makeupPtr[0]; }
+    //insert a new makeup object
     void MinHeapify(int root);
-    //dont change
-
+    //gets the minimum priced makeup
+    void insert(MinMakeup k);
+    //removes the current root
     MinMakeup extractMin();
 
-    // Returns the minimum key (key at root) from min heap
-    MinMakeup getMin() { return makeupPtr[0]; }
-
-
-
-    // Inserts a new key 'k'
-    //void insertKey(int k);
-    void insertKey(MinMakeup k);
-    int parent(int i) { return (i - 1) / 2; }
-
-    // to get index of left child of node at index i
-    int left(int i) { return (2 * i + 1); }
-
-    // to get index of right child of node at index i
-    int right(int i) { return (2 * i + 2); }
+    //gets index of nodes according to num
+    int getLeft(int num);
+    int getParent(int num);
+    int getRight(int num);
 };
 
 // Inserts a new makeup object
-void MinHeap::insertKey(MinMakeup k)
-{
-
-    if (heap_size == capacity) {
-        cout << "does not work";
-        return;
-    }
+void MinHeap::insert(MinMakeup k) {
 
     // First insert the new makeup obj at the end
-    heap_size++;
-    int i = heap_size - 1;
-    makeupPtr[i] = k;
-    while (i != 0 && makeupPtr[parent(i)].price > makeupPtr[i].price)
-    {
+    size++;
+    int index = size - 1;
+    makeupPtr[index] = k;
+    while (index != 0 && makeupPtr[getParent(index)].price > makeupPtr[index].price) {
         //check for minimum price, repeat until min is found
-
+        MinMakeup temp = (makeupPtr[index]);
         //store as temp variable
-        MinMakeup temp = (makeupPtr[i]);
-        (makeupPtr[i]) = makeupPtr[parent(i)];
-        makeupPtr[parent(i)] = temp;
-        i = parent(i);
+        (makeupPtr[index]) = makeupPtr[getParent(index)];
+        makeupPtr[getParent(index)] = temp;
+        index = getParent(index);
         //as long as the parent value is greater than the child value, it will continue to swap
     }
 }
 
-MinHeap::MinHeap(int cap)
-{
-    heap_size = 0;
-    capacity = cap;
+MinHeap::MinHeap(int maxSize) {
+    maxSize = maxSize;
+    size = 0;
 
-    makeupPtr = new MinMakeup[cap];
     //dynamic allocation
+    makeupPtr = new MinMakeup[maxSize];
 }
 
 
@@ -77,51 +57,57 @@ MinHeap::MinHeap(int cap)
 // This method assumes that the subtrees are already heapified
 void MinHeap::MinHeapify(int i)
 {
-    int l = left(i);
-
-    int r = right(i);
-
+    int l = getLeft(i);
+    int r = getRight(i);
     int minVal = i;
 
-    if (l < heap_size && makeupPtr[l].price < makeupPtr[i].price) {
+    if (l < size && makeupPtr[l].price < makeupPtr[i].price) {
         minVal = l;
     }
 
-    if (r < heap_size && makeupPtr[r].price < makeupPtr[minVal].price) {
+    if (r < size && makeupPtr[r].price < makeupPtr[minVal].price) {
         minVal = r;
     }
 
     if (minVal != i)
     {
         MinMakeup temp = (makeupPtr[i]);
-
         makeupPtr[i] = makeupPtr[minVal];
-
         makeupPtr[minVal] = temp;
-
         MinHeapify(minVal);
     }
 }
 
-MinMakeup MinHeap::extractMin()
-{
-    //if (heap_size <= 0)
-    //	return INT_MAX;
-    if (heap_size == 1)
-    {
-        heap_size--;
+MinMakeup MinHeap::extractMin() {
 
+    if (size == 1) {
+        size--;
         return makeupPtr[0];
     }
 
-    // Store the minimum value, and remove it from heap
     MinMakeup root = makeupPtr[0];
     //replacing the root with the last value
-    makeupPtr[0] = makeupPtr[heap_size - 1];
+    makeupPtr[0] = makeupPtr[size - 1];
 
-    heap_size--;
+    //decrement heap size by one
+    size = size-1;
+
     //heapifying to make the min the root again
     MinHeapify(0);
-
     return root;
+}
+
+int MinHeap::getLeft(int num) {
+    int result = 2 * num + 1;
+    return result;
+}
+
+int MinHeap::getParent(int num) {
+    int result = (num - 1) / 2;
+    return result;
+}
+
+int MinHeap::getRight(int num) {
+    int result = 2 * num + 2;
+    return result;
 }

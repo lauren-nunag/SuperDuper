@@ -120,7 +120,7 @@ void read(MinHeap& h, string category) {
             //Makeup newMakeup(brand, type, price, rating);
             //pairingHeap.Insert(&newMakeup);
             if (m.type == category) {
-                h.insertKey(m);
+                h.insert(m);
             }
         }
     }
