@@ -1,7 +1,3 @@
-//
-// Created by laure on 12/4/2022.
-//
-
 #pragma once
 #include "MinMakeup.h"
 
